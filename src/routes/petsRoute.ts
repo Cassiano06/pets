@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { createPet, deletePetById, getPetById, listPets, updatePetById } from "../controllers/petsController";
 const petsRouter = Router()
-petsRouter.get("/pets", listPets)
-petsRouter.post("/pets", createPet)
-petsRouter.delete("/pets/:petId", deletePetById)
-petsRouter.put("/pets/:petId",updatePetById)
-petsRouter.get("/pets/:petId", getPetById)
+.get("/pets", listPets)
+.post("/pets", createPet)
+.delete("(/pets/:petId(\\d+)", deletePetById)
+.put("(/pets/:petId(\\d+)",updatePetById)
+.get("(/pets/:petId(\\d+)", getPetById)
 
 export default petsRouter;

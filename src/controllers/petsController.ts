@@ -8,12 +8,18 @@ export const createPet = async(req: Request, res: Response) => {
     const result = await service.createPet(req.body)
     res.status(201).json(result);
 }
-export const getPetById = (req: Request, res: Response) => {
-    console.log("get pet bu id")
+export const getPetById = async(req: Request, res: Response) => {
+    const petId = parseInt(req.params.petId);
+    const pet = await service.getPet(petId)
+    res.status(200).json(pet);
 }
-export const updatePetById = (req: Request, res: Response) => {
-    console.log("update pet by id")
+export const updatePetById = async(req: Request, res: Response) => {
+    const petId = parseInt(req.params.petId);
+    await service.updatePet(petId, req.body)
+    res.status(204).json();
 }
-export const deletePetById = (req: Request, res: Response) => {
-    console.log("delete pet bi id")
+export const deletePetById = async(req: Request, res: Response) => {
+    const petId = parseInt(req.params.petId);
+    await service.deletePetById(petId)
+    res.status(204).json();
 }
