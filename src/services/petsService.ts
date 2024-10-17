@@ -1,36 +1,27 @@
-import { Pet } from "../models/pet"
-const pets: Pet[] = [
-    {
-        id: 1,
-        name: "Rex",
-        age: 2,
-        breed: "Labrador",
-        color: "Brown",
-        gender: "Male"
-    }
-]
+import {Pet}  from "../models/pet"
+
 const notFound = new Error("Pet not found")
 export class PetsService{
     async fetchPets(): Promise<Pet[]>{
-        return pets;
+        return await Pet.findAll();
     }
     async getPet(id: number): Promise<Pet | undefined>{
-        const pet = pets.find((p) => p.id === id);
-        if(pet === null) throw notFound;
-        return pet;
+        const foundPet = await Pet.findByPk(id);
+        if(foundPet === null) throw notFound;
+        return foundPet;
     }
     async createPet(pet: Pet): Promise<Pet>{
-        pets.push(pet)
-        return pet;
+        const createdPet = await Pet.create({ ...pet})
+        return createdPet;
     }
     async updatePet(id : number,pet : Pet): Promise<void>{
-        const index = pets.findIndex((p) => p.id === id)
-        if (index <0) throw notFound;
-        pets[index] = pet;
+        const dontExists = (await Pet.findByPk(id)) === null
+        if (dontExists) throw notFound;
+        await Pet.update({... pet}, {where: {id}})
     }
-    async deletePetById(id : number): Promise<void>{
-        const index = pets.findIndex((p) => p.id === id)
-        if (index <0) throw notFound;
-        pets.splice (index, 1);
+    async deletePet(id : number): Promise<void>{
+        const dontExists = (await Pet.findByPk(id)) === null
+        if (dontExists) throw notFound;
+        await Pet.destroy({where: {id}})
     }
 }
